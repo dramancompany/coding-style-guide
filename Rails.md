@@ -23,15 +23,11 @@
 
 ## Configuration
 
-* <a name="config-initializers"></a>
-  초기 설정 코드는 `config/initializers` 아래에 둔다. 이 코드들은 애플리케이션이 처음 구동될 때 실행된다.
-<sup>[[link](#config-initializers)]</sup>
+* 초기 설정 코드는 `config/initializers` 아래에 둔다. 이 코드들은 애플리케이션이 처음 구동될 때 실행된다.
 
-* <a name="gem-initializers"></a>
-  젬(gem)별로 각각의 초기 설정 파일은 젬과 같은 이름을 사용하여 작성한다.
+* 젬(gem)별로 각각의 초기 설정 파일은 젬과 같은 이름을 사용하여 작성한다.
   예를 들어 CarrierWave에 대한 설정은 `carrierwave.rb`에 저장하고,
   Active Admin에 대한 설정은 `active_admin.rb`에 저장한다.
-<sup>[[link](#gem-initializers)]</sup>
 
 * <a name="dev-test-prod-configs"></a>
   개발(development), 테스트(test) 그리고 배포(production) 환경에 대한 설정들은 `config/environments/`아래에 각 환경의 이름으로 구분하여 저장한다.
