@@ -29,9 +29,7 @@
   예를 들어 CarrierWave에 대한 설정은 `carrierwave.rb`에 저장하고,
   Active Admin에 대한 설정은 `active_admin.rb`에 저장한다.
 
-* <a name="dev-test-prod-configs"></a>
-  개발(development), 테스트(test) 그리고 배포(production) 환경에 대한 설정들은 `config/environments/`아래에 각 환경의 이름으로 구분하여 저장한다.
-<sup>[[link](#dev-test-prod-configs)]</sup>
+* 개발(development), 테스트(test) 그리고 배포(production) 환경에 대한 설정들은 `config/environments/`아래에 각 환경의 이름으로 구분하여 저장한다.
 
   * 사전 컴파일해야하는 파일은 추가적인 에셋으로 표시한다.
 
@@ -42,17 +40,11 @@
     config.assets.precompile += %w( rails_admin/rails_admin.css rails_admin/rails_admin.js )
     ```
 
-* <a name="app-config"></a>
-  모든 환경에 적용되어야 하는 설정은 `config/application.rb` 파일에 둔다.
-<sup>[[link](#app-config)]</sup>
+* 모든 환경에 적용되어야 하는 설정은 `config/application.rb` 파일에 둔다.
 
-* <a name="staging-like-prod"></a>
-  실제 배포 환경과 아주 유사한 'staging' 환경을 추가로 만든다.
-<sup>[[link](#staging-like-prod)]</sup>
+* 실제 배포 환경과 아주 유사한 'staging' 환경을 추가로 만든다.
 
-* <a name="yaml-config"></a>
-  그 외의 설정들은 'config/'디렉토리 아래의 YAML파일을 만들어 저장한다.
-<sup>[[link](#yaml-config)]</sup>
+* 그 외의 설정들은 'config/'디렉토리 아래의 YAML파일을 만들어 저장한다.
 
   레일즈 4.2에 새로 추가된 `config_for` 메소드를 통해 YAML 설정 파일들은 쉽게 읽어들일 수 있다.
 
