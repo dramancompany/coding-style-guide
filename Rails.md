@@ -64,8 +64,7 @@
   Rails::Application.config_for(:yaml_file)
   ```
 
-## 라우팅(Routing)
-<a name="routing"></a>
+## Routing
 
 * <a name="member-collection-routes"></a>
   RESTful 리소스에 더 많은 액션을 추가할 필요가 있다면 (정말로 그게 다 필요한가?) `member` 와 `collection` 라우트를 사용한다.
@@ -170,8 +169,7 @@
   `match` 메서드를 통한 라우트는 `[:get, :post, :patch, :put, :delete]` 중 여러 종류의 요청을 하나 이상의 액션에 맵핑할 필요가 있는 경우 ':via' 옵션과 함께 사용하고, 그 외에는 사용하지 않는다.
 <sup>[[link](#no-match-routes)]</sup>
 
-## 컨트롤러(Controllers)
-<a name="controllers"></a>
+## Controllers
 
 * <a name="skinny-controllers"></a>
   컨트롤러는 최대한 간결하게 유지한다. 컨트롤러는 단지 뷰 레이어를 위한 데이터를 전달하는 역할을 하고 어떠한 비즈니스 로직도 포함해서는 안 된다(모든 비즈니스 로직은 마땅히 모델 안에서 구현되어야 한다).
@@ -219,8 +217,7 @@
   더 많은 예제는 다음 링크를 참조.
   [RailsCast on the subject](http://railscasts.com/episodes/326-activeattr).
 
-### 엑티브 레코드(ActiveRecord)
-<a name="activerecord"></a>
+### ActiveRecord
 
 * <a name="keep-ar-defaults"></a>
   데이터베이스 소유권을 가지고 있지 않은 경우와 같이 특별한 이유가 있는 게 아니라면 엑티브 레코드의 기본 설정(테이블 이름, 기본키 등)을 가능하면 변경하지 않는다.
@@ -488,8 +485,7 @@
   end
   ```
 
-### 엑티브 레코드 쿼리(ActiveRecord Queries)
-<a name="activerecord-queries"></a>
+### ActiveRecord Queries
 
 * <a name="avoid-interpolation"></a>
   SQL injection 공격에 취약할 수 있으므로, 쿼리에서 문자열 보간(string interpolation)을 사용하지 않는다.
@@ -604,8 +600,7 @@
   SELECT\n    users.id, accounts.plan\n  FROM\n    users\n  INNER JOIN\n    acounts\n  ON\n    accounts.user_id = users.id
   ```
 
-## 마이그레이션(Migrations)
-<a name="migrations"></a>
+## Migrations
 
 * <a name="schema-version"></a>
   `schema.rb` (또는 `structure.sql`) 파일을 VCS(버전 관리 시스템)에 포함시킨다.
@@ -660,8 +655,7 @@
   마이그레이션에서 모델 클래스를 사용하지 않는다. 모델 클래스들은 계속해서 변하기 때문에, 마이그레이션에서 사용한 모델이 변화하게 되면 마이그레이션 작업이 정상적으로 수행되지 않을 수 있다.
 <sup>[[link](#no-model-class-migrations)]</sup>
 
-## 뷰(Views)
-<a name="views"></a>
+## Views
 
 * <a name="no-direct-model-view"></a>
   뷰에서 직접적으로 모델을 사용하지 않는다.
@@ -675,8 +669,7 @@
   부분 템플릿(partial template)과 레이아웃을 이용하여 코드 중복을 줄인다.
 <sup>[[link](#partials)]</sup>
 
-## 국제화(Internationalization)
-<a name="internationalization"></a>
+## Internationalization
 
 * <a name="locale-texts"></a>
   뷰, 모델, 컨트롤러에서는 지역(locale) 관련 설정이나 문자열을 바로 사용하지 않는다. 이러한 문자열들은 `config/locales` 디렉터리 아래의 로케일 파일로 옮겨 관리한다.
@@ -762,8 +755,7 @@
   Guides)](http://guides.rubyonrails.org/i18n.html)를 참고하라.
 <sup>[[link](#i18n-guides)]</sup>
 
-## 에셋 (Assets)
-<a name="assets"></a>
+## Assets
 
 [에셋 파이프라인](http://guides.rubyonrails.org/asset_pipeline.html)을 사용하라. 이는 애플리케이션 배포에 필요한 에셋 파일들을 조직해줄 것이다.
 
@@ -789,8 +781,7 @@
   [zurb-foundation](https://github.com/zurb/foundation)).
 <sup>[[link](#gem-assets)]</sup>
 
-## 메일러(Mailers)
-<a name="mailers"></a>
+## Mailers
 
 * <a name="mailer-name"></a>
   메일러의 이름은 'SomethingMailer' 형식을 따른다.
@@ -899,8 +890,7 @@
   이메일 전송은 [sidekiq](https://github.com/mperham/sidekiq)과 같은 백그라운드 작업을 지원하는 젬을 사용해 이루어져야 한다.
 <sup>[[link](#background-email)]</sup>
 
-## 시간(Time)
-<a name="time"></a>
+## Time
 
 * <a name="tz-config"></a>
   `application.rb`에 타임존을 적절히 설정한다.
@@ -939,8 +929,7 @@
   Time.current # 위와 같지만 더 짧은 방법
   ```
 
-## 번들러(Bundler)
-<a name="bundler"></a>
+## Bundler
 
 * <a name="dev-test-gems"></a>
   `Gemfile`에는 개발 또는 테스트 환경에 필요한 젬들의 목록을 그룹별로 기술한다.
@@ -980,8 +969,7 @@
   이 파일은 무작위로 생성된 것이 아니므로, 같은 프로젝트를 진행하는 여러 개발자들이 `bundle install` 명령으로 같은 버전의 젬을 설치할 수 있게 도와준다.
 <sup>[[link](#gemfile-lock)]</sup>
 
-## 프로세스 관리(Managing processes)
-<a name="managing-processes"></a>
+## Managing processes
 
 * <a name="foreman"></a>
   프로젝트가 다양한 외부 프로세스에 의존적이라면 [foreman](https://github.com/ddollar/foreman)을 사용하여 관리한다.
