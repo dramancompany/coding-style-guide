@@ -146,31 +146,19 @@
 
 ## Controllers
 
-* <a name="skinny-controllers"></a>
-  컨트롤러는 최대한 간결하게 유지한다. 컨트롤러는 단지 뷰 레이어를 위한 데이터를 전달하는 역할을 하고 어떠한 비즈니스 로직도 포함해서는 안 된다(모든 비즈니스 로직은 마땅히 모델 안에서 구현되어야 한다).
-<sup>[[link](#skinny-controllers)]</sup>
+* 컨트롤러는 최대한 간결하게 유지한다. 컨트롤러는 단지 뷰 레이어를 위한 데이터를 전달하는 역할을 하고 어떠한 비즈니스 로직도 포함해서는 안 된다(모든 비즈니스 로직은 마땅히 모델 안에서 구현되어야 한다).
 
-* <a name="one-method"></a>
-  각 컨트롤러의 액션은 (원칙적으로는) 단 하나의 메소드만을 호출해야한다.
-<sup>[[link](#one-method)]</sup>
+* 각 컨트롤러의 액션은 (원칙적으로는) 단 하나의 메소드만을 호출해야한다.
 
-* <a name="shared-instance-variables"></a>
-  하나의 컨트롤러와 하나의 뷰 사이에서 두 개 이상의 인스턴스 변수들을 공유하지 않는다.
-<sup>[[link](#shared-instance-variables)]</sup>
+* 하나의 컨트롤러와 하나의 뷰 사이에서 두 개 이상의 인스턴스 변수들을 공유하지 않는다.
 
 ## Models
 
-* <a name="model-classes"></a>
-  엑티브 레코드를 사용하지 않는 모델은 자유롭게 사용한다.
-<sup>[[link](#model-classes)]</sup>
+* 엑티브 레코드를 사용하지 않는 모델은 자유롭게 사용한다.
 
-* <a name="meaningful-model-names"></a>
-  모델 이름에는 축약어를 쓰지않고 의미를 가진 짧은 이름을 사용한다.
-<sup>[[link](#meaningful-model-names)]</sup>
+* 모델 이름에는 축약어를 쓰지않고 의미를 가진 짧은 이름을 사용한다.
 
-* <a name="activeattr-gem"></a>
-  엑티브 레코드의 데이터베이스 기능을 제외한 validation과 같은 기능만 필요한 모델 오브젝트가 필요하다면 [ActiveAttr](https://github.com/cgriego/active_attr) 젬을 사용한다.
-<sup>[[link](#activeattr-gem)]</sup>
+* 엑티브 레코드의 데이터베이스 기능을 제외한 validation과 같은 기능만 필요한 모델 오브젝트가 필요하다면 [ActiveAttr](https://github.com/cgriego/active_attr) 젬을 사용한다.
 
   ```Ruby
   class Message
@@ -194,9 +182,7 @@
 
 ### ActiveRecord
 
-* <a name="keep-ar-defaults"></a>
-  데이터베이스 소유권을 가지고 있지 않은 경우와 같이 특별한 이유가 있는 게 아니라면 엑티브 레코드의 기본 설정(테이블 이름, 기본키 등)을 가능하면 변경하지 않는다.
-<sup>[[link](#keep-ar-defaults)]</sup>
+* 데이터베이스 소유권을 가지고 있지 않은 경우와 같이 특별한 이유가 있는 게 아니라면 엑티브 레코드의 기본 설정(테이블 이름, 기본키 등)을 가능하면 변경하지 않는다.
 
   ```Ruby
   # 나쁜 예 - 데이터베이스 스키마 변경 권한이 있다면 이렇게 하지 말 것!
@@ -206,9 +192,7 @@
   end
   ```
 
-* <a name="macro-style-methods"></a>
-  매크로 성격의 메소드(`has_many`, `validates` 등)들은 클래스 상단에 모아둔다.
-<sup>[[link](#macro-style-methods)]</sup>
+* 매크로 성격의 메소드(`has_many`, `validates` 등)들은 클래스 상단에 모아둔다.
 
   ```Ruby
   class User < ActiveRecord::Base
@@ -245,10 +229,8 @@
   end
   ```
 
-* <a name="has-many-through"></a>
-  `has_and_belongs_to_many`보다 `has_many :through`를 사용한다.
+* `has_and_belongs_to_many`보다 `has_many :through`를 사용한다.
   `has_many :through` 사용하면 중간 모델(join model)에서 추가적인 속성이나 validation을 사용할 수 있다.
-<sup>[[link](#has-many-through)]</sup>
 
   ```Ruby
   # 좋지 않은 예 - has_and_belongs_to_many를 사용한 예
@@ -277,9 +259,7 @@
   end
   ```
 
-* <a name="read-attribute"></a>
-  `read_attribute(:attribute)`보다 `self[:attribute]`를 사용한다.
-<sup>[[link](#read-attribute)]</sup>
+* `read_attribute(:attribute)`보다 `self[:attribute]`를 사용한다.
 
   ```Ruby
   # 나쁜 예
@@ -293,9 +273,7 @@
   end
   ```
 
-* <a name="write-attribute"></a>
-  `write_attribute(:attribute, value)`보다 `self[:attribute] = value`를 사용한다.
-<sup>[[link](#write-attribute)]</sup>
+* `write_attribute(:attribute, value)`보다 `self[:attribute] = value`를 사용한다.
 
   ```Ruby
   # 나쁜 예
@@ -309,9 +287,7 @@
   end
   ```
 
-* <a name="sexy-validations"></a>
-  항상 새로운 ["섹시한" validations](http://thelucid.com/2010/01/08/sexy-validation-in-edge-rails-rails-3/)을 사용한다.
-<sup>[[link](#sexy-validations)]</sup>
+* 항상 새로운 ["섹시한" validations](http://thelucid.com/2010/01/08/sexy-validation-in-edge-rails-rails-3/)을 사용한다.
 
   ```Ruby
   # 나쁜 예
@@ -322,9 +298,7 @@
   validates :email, presence: true, length: { maximum: 100 }
   ```
 
-* <a name="custom-validator-file"></a>
-  커스텀 검증(validation)을 한 번 이상 사용하거나 정규표현식을 사용한다면, 커스텀 검증을 담은 파일을 작성한다.
-<sup>[[link](#custom-validator-file)]</sup>
+* 커스텀 검증(validation)을 한 번 이상 사용하거나 정규표현식을 사용한다면, 커스텀 검증을 담은 파일을 작성한다.
 
   ```Ruby
   # 나쁜 예
@@ -343,17 +317,11 @@
     validates :email, email: true
   end
   ```
-* <a name="app-validators"></a>
-  커스텀 validator는 `app/validators`아래에 둔다.
-<sup>[[link](#app-validators)]</sup>
+* 커스텀 validator는 `app/validators`아래에 둔다.
 
-* <a name="custom-validators-gem"></a>
-  여러 애플리케이션에서 사용되는 커스텀 validator나 범용적인 validator는 분리해서 젬으로 분리하여 공유한다.
-<sup>[[link](#custom-validators-gem)]</sup>
+* 여러 애플리케이션에서 사용되는 커스텀 validator나 범용적인 validator는 분리해서 젬으로 분리하여 공유한다.
 
-* <a name="named-scopes"></a>
-  이름 있는 스코프(named scope)는 자유롭게 사용한다.
-<sup>[[link](#named-scopes)]</sup>
+* 이름 있는 스코프(named scope)는 자유롭게 사용한다.
 
   ```Ruby
   class User < ActiveRecord::Base
@@ -364,10 +332,7 @@
   end
   ```
 
-* <a name="named-scope-class"></a>
-  매개변수가 있는 람다 함수로 만들어진 이름 있는 스코프가 너무 복잡해질 때는 이름 있는 스코프와 마찬가지로 `ActiveRecord::Relation`을 반환하는 클래스 메서드를 정의한다. 분명 아래와 같이 단순하게 스코프를 정의할 수 있을 것이다.
-
-<sup>[[link](#named-scope-class)]</sup>
+* 매개변수가 있는 람다 함수로 만들어진 이름 있는 스코프가 너무 복잡해질 때는 이름 있는 스코프와 마찬가지로 `ActiveRecord::Relation`을 반환하는 클래스 메서드를 정의한다. 분명 아래와 같이 단순하게 스코프를 정의할 수 있을 것이다.
 
   ```Ruby
   class User < ActiveRecord::Base
@@ -377,15 +342,11 @@
   end
   ```
 
-* <a name="beware-update-attribute"></a>
-  [`update_attribute`](http://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_attribute) 메소드의 작동 방법에 대하여 이해해야한다.
+* [`update_attribute`](http://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_attribute) 메소드의 작동 방법에 대하여 이해해야한다.
   (`update_attributes`와는 달리) 모델 validation를 실행하지 않기 때문에 모델의 상태에 오류가 발생할 수 있다.
-<sup>[[link](#beware-update-attribute)]</sup>
 
-* <a name="user-friendly-urls"></a>
-  사용자 친화적인 URL을 사용한다. URL에 'id'보다 모델의 특징을 잘 나타내는 속성을 사용한다.
+* 사용자 친화적인 URL을 사용한다. URL에 'id'보다 모델의 특징을 잘 나타내는 속성을 사용한다.
   이를 위한 여러가지 방법들이 있다.
-<sup>[[link](#user-friendly-urls)]</sup>
 
   * 모델의 'to_param' 메소드를 오버라이드한다. 이 메서드는 레일즈에서 대상 객체에 대한 URL을 생성하기 위해 사용된다. 기본적으로 레코드의 `id`를 String 객체로 반환한다. 이를 오버라이드해서 사람이 읽기 좋은 형식을 사용한다.
 
@@ -410,10 +371,8 @@
 
   사용법에 대한 더 많은 정보는 [문서](https://github.com/norman/friendly_id)를 참고하기 바란다.
 
-* <a name="find-each"></a>
-  엑티브 레코드 객체의 컬렉션을 반복할 때는 `find_each`를 사용한다.
+* 엑티브 레코드 객체의 컬렉션을 반복할 때는 `find_each`를 사용한다.
   (예를 들면 `all` 메서드를 사용해) 데이터베이스에서 가져온 레코드 컬렉션에 대해서 반복 작업을 수행하는 일은 매우 비효율적이다. 이 때는 배치 작업(batch process) 메소드를 통해 레코드들이 배치에서 처리되도록 하면 메모리 소비를 줄일 수 있다.
-<sup>[[link](#find-each)]</sup>
 
   ```Ruby
   # 나쁜 예
@@ -435,10 +394,8 @@
   end
   ```
 
-* <a name="before_destroy"></a>
-  [레일즈는 모델 의존 관계에 대한 콜백을 생성하기](https://github.com/rails/rails/issues/3458) 때문에, 항상
+* [레일즈는 모델 의존 관계에 대한 콜백을 생성하기](https://github.com/rails/rails/issues/3458) 때문에, 항상
   `prepend: true'` validation을 수행하는 `before_destroy` 콜백을 호출한다.
-<sup>[[link](#before_destroy)]</sup>
 
   ```Ruby
   # 나쁜 예 - roles는 super_admin?이 true라도 자동적으로 삭제된다.
@@ -462,9 +419,7 @@
 
 ### ActiveRecord Queries
 
-* <a name="avoid-interpolation"></a>
-  SQL injection 공격에 취약할 수 있으므로, 쿼리에서 문자열 보간(string interpolation)을 사용하지 않는다.
-<sup>[[link](#avoid-interpolation)]</sup>
+* SQL injection 공격에 취약할 수 있으므로, 쿼리에서 문자열 보간(string interpolation)을 사용하지 않는다.
 
   ```Ruby
   # 나쁜 예 - 어떠한 매개변수든지 들어갈 수 있음
@@ -474,10 +429,8 @@
   Client.where('orders_count = ?', params[:orders])
   ```
 
-* <a name="named-placeholder"></a>
-  쿼리에 하나 이상의 플레이스홀더를 사용할 때는
+* 쿼리에 하나 이상의 플레이스홀더를 사용할 때는
   위치로 구분되는 플레이스홀더 대신 이름을 붙여 사용한다.
-<sup>[[link](#named-placeholder)]</sup>
 
   ```Ruby
   # 괜찮은 예
@@ -493,9 +446,7 @@
   )
   ```
 
-* <a name="find"></a>
-  id를 통해 하나의 값을 조회할 때는 `where` 보다 `find`를 사용한다.
-<sup>[[link](#find)]</sup>
+* id를 통해 하나의 값을 조회할 때는 `where` 보다 `find`를 사용한다.
 
   ```Ruby
   # 나쁜 예
@@ -505,9 +456,7 @@
   User.find(id)
   ```
 
-* <a name="find_by"></a>
-  특정 속성을 통해 하나의 값을 조회할 때는 `where`보단 `find_by`를 사용한다.
-<sup>[[link](#find_by)]</sup>
+* 특정 속성을 통해 하나의 값을 조회할 때는 `where`보단 `find_by`를 사용한다.
 
   ```Ruby
   # 나쁜 예
@@ -517,9 +466,7 @@
   User.find_by(first_name: 'Bruce', last_name: 'Wayne')
   ```
 
-* <a name="find_each"></a>
-  많은 레코드에 대해 어떤 작업을 해야한다면 `find_each`를 사용한다.
-<sup>[[link](#find_each)]</sup>
+* 많은 레코드에 대해 어떤 작업을 해야한다면 `find_each`를 사용한다.
 
   ```Ruby
   # 나쁜 예 - 모든 데이터를 한 번에 읽어온다.
@@ -534,9 +481,7 @@
   end
   ```
 
-* <a name="where-not"></a>
-  SQL을 직접 사용하기보다 'where.not'을 사용한다.
-<sup>[[link](#where-not)]</sup>
+* SQL을 직접 사용하기보다 'where.not'을 사용한다.
 
   ```Ruby
   # 나쁜 예
@@ -546,12 +491,10 @@
   User.where.not(id: id)
   ```
 
-* <a name="squished-heredocs"></a>
-  `find_by_sql`처럼 메소드에서 명시적인 쿼리를 작성할 때, `squish`와 함께
+* `find_by_sql`처럼 메소드에서 명시적인 쿼리를 작성할 때, `squish`와 함께
   히어독을 사용한다. 이렇게 하면, SQL을 줄바꿈과 들여쓰기로 읽기 쉬운 형식으로
   할 수 있을 뿐만 아니라, GitHub, Atom, RubyMine을 포함한 많은 툴에서 구문
   하일라이트를 해준다.
-<sup>[[link](#squished-heredocs)]</sup>
 
   ```Ruby
   User.find_by_sql(<<SQL.squish)
@@ -577,17 +520,11 @@
 
 ## Migrations
 
-* <a name="schema-version"></a>
-  `schema.rb` (또는 `structure.sql`) 파일을 VCS(버전 관리 시스템)에 포함시킨다.
-<sup>[[link](#schema-version)]</sup>
+* `schema.rb` (또는 `structure.sql`) 파일을 VCS(버전 관리 시스템)에 포함시킨다.
 
-* <a name="db-schema-load"></a>
-  빈 database를 초기화할 때는 `rake db:migrate` 대신 `rake db:schema:load`를 사용한다.
-<sup>[[link](#db-schema-load)]</sup>
+* 빈 database를 초기화할 때는 `rake db:migrate` 대신 `rake db:schema:load`를 사용한다.
 
-* <a name="default-migration-values"></a>
-  기본 설정 값들은 애플리케이션에서 지정하기보다, 마이그레이션 자체에 포함시킨다.
-<sup>[[link](#default-migration-values)]</sup>
+* 기본 설정 값들은 애플리케이션에서 지정하기보다, 마이그레이션 자체에 포함시킨다.
 
   ```Ruby
   # 나쁜 예 - 애플리케이션에서 기본설정 값을 지정하는 예
@@ -598,13 +535,9 @@
 
   테이블의 기본 설정 값을 레일즈 애플리케이션에서만 지정하는 것은 많은 레일즈 개발자들이 제안한 방법이지만, 이는 데이터를 많은 어플리케이션 버그에 노출시키는 아주 불안정한 접근방법이다. 그리고 대부분의 중요한 애플리케이션들은 하나의 데이터베이스를 다른 애플리케이션과 공유하기 때문에, 레일즈 애플리케이션을 통해 데이터 무결성을 보장하는 것은 불가능하다는 사실을 고려해야한다.
 
-* <a name="foreign-key-constraints"></a>식
-  외래키 제약을 사용한다. 레일즈 4.2부터 엑티브 레코드는 외래키 제약을 기본적으로 지원한다.
-  <sup>[[link](#foreign-key-constraints)]</sup>
+* 외래키 제약을 사용한다. 레일즈 4.2부터 엑티브 레코드는 외래키 제약을 기본적으로 지원한다.
 
-* <a name="change-vs-up-down"></a>
-  (테이블이나 컬럼을 추가하는) 구조적인 마이그레이션을 작성할 때는 `up`과 `down` 메소드 대신 `change` 메소드를 정의한다.
-  <sup>[[link](#change-vs-up-down)]</sup>
+* (테이블이나 컬럼을 추가하는) 구조적인 마이그레이션을 작성할 때는 `up`과 `down` 메소드 대신 `change` 메소드를 정의한다.
 
   ```Ruby
   # 예전 방식
@@ -626,33 +559,22 @@
   end
   ```
 
-* <a name="no-model-class-migrations"></a>
-  마이그레이션에서 모델 클래스를 사용하지 않는다. 모델 클래스들은 계속해서 변하기 때문에, 마이그레이션에서 사용한 모델이 변화하게 되면 마이그레이션 작업이 정상적으로 수행되지 않을 수 있다.
+* 마이그레이션에서 모델 클래스를 사용하지 않는다. 모델 클래스들은 계속해서 변하기 때문에, 마이그레이션에서 사용한 모델이 변화하게 되면 마이그레이션 작업이 정상적으로 수행되지 않을 수 있다.
 <sup>[[link](#no-model-class-migrations)]</sup>
 
 ## Views
 
-* <a name="no-direct-model-view"></a>
-  뷰에서 직접적으로 모델을 사용하지 않는다.
-<sup>[[link](#no-direct-model-view)]</sup>
+* 뷰에서 직접적으로 모델을 사용하지 않는다.
 
-* <a name="no-complex-view-formatting"></a>
-  뷰에서는 절대 복잡한 포맷팅을 만들지 말고, 이러한 포맷팅은 뷰 헬퍼 메소드나 모델로 분리한다.
-<sup>[[link](#no-complex-view-formatting)]</sup>
+* 뷰에서는 절대 복잡한 포맷팅을 만들지 말고, 이러한 포맷팅은 뷰 헬퍼 메소드나 모델로 분리한다.
 
-* <a name="partials"></a>
-  부분 템플릿(partial template)과 레이아웃을 이용하여 코드 중복을 줄인다.
-<sup>[[link](#partials)]</sup>
+* 부분 템플릿(partial template)과 레이아웃을 이용하여 코드 중복을 줄인다.
 
 ## Internationalization
 
-* <a name="locale-texts"></a>
-  뷰, 모델, 컨트롤러에서는 지역(locale) 관련 설정이나 문자열을 바로 사용하지 않는다. 이러한 문자열들은 `config/locales` 디렉터리 아래의 로케일 파일로 옮겨 관리한다.
-<sup>[[link](#locale-texts)]</sup>
+* 뷰, 모델, 컨트롤러에서는 지역(locale) 관련 설정이나 문자열을 바로 사용하지 않는다. 이러한 문자열들은 `config/locales` 디렉터리 아래의 로케일 파일로 옮겨 관리한다.
 
-* <a name="translated-labels"></a>
-  엑티브 레코드 모델의 레이블에 대한 번역이 필요할 때는 'activerecord' 아래에 작성한다.
-<sup>[[link](#translated-labels)]</sup>
+* 엑티브 레코드 모델의 레이블에 대한 번역이 필요할 때는 'activerecord' 아래에 작성한다.
 
   ```
   en:
@@ -668,11 +590,9 @@
   `User.human_attribute_name("name")`은 "Full name"을 반환한다.
   이러한 속성들에 대한 번역은 뷰에서 레이블로 사용된다.
 
-* <a name="organize-locale-files"></a>
-  뷰에서 사용되는 엑티브 레코드 속성들에 대한 번역은 분리한다.
+* 뷰에서 사용되는 엑티브 레코드 속성들에 대한 번역은 분리한다.
   `locales/models` 디렉터리에 모델을 위한 로케일 파일들을 저장하고,
   뷰에서 사용하는 텍스트는 `locales/views`에 저장한다.
-<sup>[[link](#organize-locale-files)]</sup>
 
   * 로케일(locale) 파일들을 적절한 위치에 저장하기 위해 디렉터리를 추가로 만들었다면, 이 파일들을 읽어들일 수 있도록 `application.rb` 파일에 설정해야 한다.
 
@@ -681,23 +601,17 @@
       config.i18n.load_path += dir[rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
       ```
 
-* <a name="shared-localization"></a>
-  날짜나 통화 형식과 같은 공유해서 사용할 수 있는 지역화 옵션들은
+* 날짜나 통화 형식과 같은 공유해서 사용할 수 있는 지역화 옵션들은
   `locale` 바로 아래에 저장한다.
-<sup>[[link](#shared-localization)]</sup>
 
-* <a name="short-i18n"></a>
-  i18n의 짧은 형식의 메소드를 사용한다.
+* i18n의 짧은 형식의 메소드를 사용한다.
   `i18n.translate` => `i18n.t`
   `i18n.localize` => `i18n.l`
-<sup>[[link](#short-i18n)]</sup>
 
-* <a name="lazy-lookup"></a>
-  뷰에서 사용되는 텍스트에 대해 게으른 참조(lazy lookup)를 사용한다.
+* 뷰에서 사용되는 텍스트에 대해 게으른 참조(lazy lookup)를 사용한다.
   게으른 참조란 번역 텍스트의 구조를 뷰 디렉터리 구조와 같게 하여,
   뷰에서 간단히 번역 텍스트를 참조하는 방법이다.
   예를 들어 다음과 같은 구조가 있다고 하자.
-<sup>[[link](#lazy-lookup)]</sup>
 
   ```
   en:
@@ -712,10 +626,8 @@
   = t '.title'
   ```
 
-* <a name="dot-separated-keys"></a>
-  컨트롤러와 모델에서 `:scope` 옵션을 사용하기보다, 점으로 분리된 키를 사용한다.
+* 컨트롤러와 모델에서 `:scope` 옵션을 사용하기보다, 점으로 분리된 키를 사용한다.
   읽기도 쉽고 계층 구조를 파악하기도 쉽다.
-<sup>[[link](#dot-separated-keys)]</sup>
 
   ```Ruby
   # 나쁜 예
@@ -725,52 +637,36 @@
   I18n.t 'activerecord.errors.messages.record_invalid'
   ```
 
-* <a name="i18n-guides"></a>
-  레일즈 I18n과 관련된 더 자세한 정보는 [레일즈 가이드(Rails
+* 레일즈 I18n과 관련된 더 자세한 정보는 [레일즈 가이드(Rails
   Guides)](http://guides.rubyonrails.org/i18n.html)를 참고하라.
-<sup>[[link](#i18n-guides)]</sup>
 
 ## Assets
 
 [에셋 파이프라인](http://guides.rubyonrails.org/asset_pipeline.html)을 사용하라. 이는 애플리케이션 배포에 필요한 에셋 파일들을 조직해줄 것이다.
 
-* <a name="reserve-app-assets"></a>
-  커스텀 스타일시트, 자바스크립트, 이미지는 `app/assets` 디렉터리 아래에 저장한다.
-<sup>[[link](#reserve-app-assets)]</sup>
+* 커스텀 스타일시트, 자바스크립트, 이미지는 `app/assets` 디렉터리 아래에 저장한다.
 
-* <a name="lib-assets"></a>
-  애플리케이션에 포함되지 않는 직접 작성한 라이브러리들은 `lib/assets`에 저장한다.
-<sup>[[link](#lib-assets)]</sup>
+* 애플리케이션에 포함되지 않는 직접 작성한 라이브러리들은 `lib/assets`에 저장한다.
 
-* <a name="vendor-assets"></a>
-  [jQuery](http://jquery.com/)나
+* [jQuery](http://jquery.com/)나
   [bootstrap](http://twitter.github.com/bootstrap/)와 같은 
   서드파티 라이브러리는 `vendor/assets`에 둔다.
-<sup>[[link](#vendor-assets)]</sup>
 
-* <a name="gem-assets"></a>
-  가능하다면 젬으로 만들어진 에셋을 사용한다(예를 들어,
+* 가능하다면 젬으로 만들어진 에셋을 사용한다(예를 들어,
   [jquery-rails](https://github.com/rails/jquery-rails),
   [jquery-ui-rails](https://github.com/joliss/jquery-ui-rails),
   [bootstrap-sass](https://github.com/thomas-mcdonald/bootstrap-sass),
   [zurb-foundation](https://github.com/zurb/foundation)).
-<sup>[[link](#gem-assets)]</sup>
 
 ## Mailers
 
-* <a name="mailer-name"></a>
-  메일러의 이름은 'SomethingMailer' 형식을 따른다.
+* 메일러의 이름은 'SomethingMailer' 형식을 따른다.
   이러한 접미사가 없다면 메일러 클래스인지 바로 파악하기가 어렵고, 어떠한 뷰에 연결되어 있는지 찾아내기 어렵다.
-<sup>[[link](#mailer-name)]</sup>
 
-* <a name="html-plain-email"></a>
-  HTML과 텍스트(plain text) 기반의 두 가지 템플릿을 각각 준비한다.
-<sup>[[link](#html-plain-email)]</sup>
+* HTML과 텍스트(plain text) 기반의 두 가지 템플릿을 각각 준비한다.
 
-* <a name="enable-delivery-errors"></a>
-  개발 환경에서 메일 전송에 실패하면 에러가 발생하도록 설정한다.
+* 개발 환경에서 메일 전송에 실패하면 에러가 발생하도록 설정한다.
   기본 설정 값은 에러가 발생하지 않도록 설정되어 있다.
-<sup>[[link](#enable-delivery-errors)]</sup>
 
   ```Ruby
   # config/environments/development.rb
@@ -778,9 +674,7 @@
   config.action_mailer.raise_delivery_errors = true
   ```
 
-* <a name="local-smtp"></a>
-  개발 환경에서는 [Mailcatcher](https://github.com/sj26/mailcatcher)와 같은 로컬 SMTP 서버를 사용한다.
-<sup>[[link](#local-smtp)]</sup>
+* 개발 환경에서는 [Mailcatcher](https://github.com/sj26/mailcatcher)와 같은 로컬 SMTP 서버를 사용한다.
 
   ```Ruby
   # config/environments/development.rb
@@ -792,9 +686,7 @@
   }
   ```
 
-* <a name="default-hostname"></a>
-  호스트의 이름을 기본 설정 값을 지정한다.
-<sup>[[link](#default-hostname)]</sup>
+* 호스트의 이름을 기본 설정 값을 지정한다.
 
   ```Ruby
   # config/environments/development.rb
@@ -807,10 +699,8 @@
   default_url_options[:host] = 'your_site.com'
   ```
 
-* <a name="url-not-path-in-email"></a>
-  이메일에 사이트의 링크를 넣고 싶다면 `_path` 대신 `_url` 메소드를 사용한다.
+* 이메일에 사이트의 링크를 넣고 싶다면 `_path` 대신 `_url` 메소드를 사용한다.
   `_url` 메소드는 호스트 이름을 같이 반환하고,  `_path` 메소드는 그렇지 않다.
-<sup>[[link](#url-not-path-in-email)]</sup>
 
   ```Ruby
   # 나쁜 예
@@ -822,18 +712,14 @@
   <%= link_to 'here', course_url(@course) %>
   ```
 
-* <a name="email-addresses"></a>
-  보내는 사람(from)과 받는 사람(to)의 이메일 형식을 적절하게 지정한다. 다음 형식을 따른다.
-<sup>[[link](#email-addresses)]</sup>
+* 보내는 사람(from)과 받는 사람(to)의 이메일 형식을 적절하게 지정한다. 다음 형식을 따른다.
 
   ```Ruby
   # 메일러 클래스 안에서 설정한다
   default from: 'Your Name <info@your_site.com>'
   ```
 
-* <a name="delivery-method-test"></a>
-  테스트 환경에서는 이메일 전송 메소드를 `test`로 설정한다.
-<sup>[[link](#delivery-method-test)]</sup>
+* 테스트 환경에서는 이메일 전송 메소드를 `test`로 설정한다.
 
   ```Ruby
   # config/environments/test.rb
@@ -841,9 +727,7 @@
   config.action_mailer.delivery_method = :test
   ```
 
-* <a name="delivery-method-smtp"></a>
-  개발 및 배포 환경에서는 이메일 전송 메소드가 `smtp`로 설정되어 있어야 한다.
-<sup>[[link](#delivery-method-smtp)]</sup>
+* 개발 및 배포 환경에서는 이메일 전송 메소드가 `smtp`로 설정되어 있어야 한다.
 
   ```Ruby
   # config/environments/development.rb, config/environments/production.rb
@@ -851,25 +735,19 @@
   config.action_mailer.delivery_method = :smtp
   ```
 
-* <a name="inline-email-styles"></a>
-  html 형식의 이메일을 전송할 때, 일부 클라이언트에서는 외부 스타일시트를 참조할 때 문제가 발생할 수 있기 때문에 css는 모두 인라인으로 작성되어야 한다.
+* html 형식의 이메일을 전송할 때, 일부 클라이언트에서는 외부 스타일시트를 참조할 때 문제가 발생할 수 있기 때문에 css는 모두 인라인으로 작성되어야 한다.
   하지만 인라인 스타일을 사용하면 유지보수가 힘들고 코드 중복이 발생하게 된다.
   스타일과 html을 자동적으로 결합해주는 아래 두 가지 젬이 존재한다.
   [premailer-rails](https://github.com/fphilipe/premailer-rails)와
   [roadie](https://github.com/Mange/roadie).
-<sup>[[link](#inline-email-styles)]</sup>
 
-* <a name="background-email"></a>
-  컨트롤러에서 요청에 대한 응답을 처리하는 도중에 이메일을 보내서는 안 된다.
+* 컨트롤러에서 요청에 대한 응답을 처리하는 도중에 이메일을 보내서는 안 된다.
   이는 페이지 로딩을 지연시키고, 여러 메일을 동시에 발송할 때 타임아웃이 될 수도 있다.
   이메일 전송은 [sidekiq](https://github.com/mperham/sidekiq)과 같은 백그라운드 작업을 지원하는 젬을 사용해 이루어져야 한다.
-<sup>[[link](#background-email)]</sup>
 
 ## Time
 
-* <a name="tz-config"></a>
-  `application.rb`에 타임존을 적절히 설정한다.
-<sup>[[link](#tz-config)]</sup>
+* `application.rb`에 타임존을 적절히 설정한다.
 
   ```Ruby
   config.time_zone = 'Eastern European Time'
@@ -877,9 +755,7 @@
   config.active_record.default_timezone = :local
   ```
 
-* <a name="time-parse"></a>
-  `Time.parse`를 사용하지 않는다.
-<sup>[[link](#time-parse)]</sup>
+* `Time.parse`를 사용하지 않는다.
 
   ```Ruby
   # 나쁜 예
@@ -891,9 +767,7 @@
   # => Mon, 02 Mar 2015 19:05:37 EET +02:00
   ```
 
-* <a name="time-now"></a>
-  `Time.now`를 사용하지 않는다.
-<sup>[[link](#time-now)]</sup>
+* `Time.now`를 사용하지 않는다.
 
   ```Ruby
   # 나쁜 예
@@ -906,19 +780,13 @@
 
 ## Bundler
 
-* <a name="dev-test-gems"></a>
-  `Gemfile`에는 개발 또는 테스트 환경에 필요한 젬들의 목록을 그룹별로 기술한다.
-<sup>[[link](#dev-test-gems)]</sup>
+* `Gemfile`에는 개발 또는 테스트 환경에 필요한 젬들의 목록을 그룹별로 기술한다.
 
-* <a name="only-good-gems"></a>
-  신뢰할만한 젬들만을 사용한다.
+* 신뢰할만한 젬들만을 사용한다.
   잘 알려지지 않은 젬을 사용하고자 한다면 우선 소스 코드와 리뷰들을 살펴보자.
-<sup>[[link](#only-good-gems)]</sup>
 
-* <a name="os-specific-gemfile-locks"></a>
-  다른 OS를 사용하는 개발자들과 함께 프로젝트를 진행하게 되면 지속적으로 `Gemfile.lock`이 변경될 것이다.
+* 다른 OS를 사용하는 개발자들과 함께 프로젝트를 진행하게 되면 지속적으로 `Gemfile.lock`이 변경될 것이다.
   따라서 Gemfile의 `darwin` 그룹에는 OS X 기반의 젬을 명시하고, `linux`그룹에는 리눅스 기반의 젬을 두어라.
-<sup>[[link](#os-specific-gemfile-locks)]</sup>
 
   ```Ruby
   # Gemfile
@@ -939,16 +807,12 @@
   Bundler.require(platform)
   ```
 
-* <a name="gemfile-lock"></a>
-  `Gemfile.lock` 파일은 버전 관리에 포함한다.
+* `Gemfile.lock` 파일은 버전 관리에 포함한다.
   이 파일은 무작위로 생성된 것이 아니므로, 같은 프로젝트를 진행하는 여러 개발자들이 `bundle install` 명령으로 같은 버전의 젬을 설치할 수 있게 도와준다.
-<sup>[[link](#gemfile-lock)]</sup>
 
 ## Managing processes
 
-* <a name="foreman"></a>
-  프로젝트가 다양한 외부 프로세스에 의존적이라면 [foreman](https://github.com/ddollar/foreman)을 사용하여 관리한다.
-<sup>[[link](#foreman)]</sup>
+* 프로젝트가 다양한 외부 프로세스에 의존적이라면 [foreman](https://github.com/ddollar/foreman)을 사용하여 관리한다.
 
 # 리소스
 
