@@ -25,22 +25,20 @@
 
 * 초기 설정 코드는 `config/initializers` 아래에 둔다. 이 코드들은 애플리케이션이 처음 구동될 때 실행된다.
 
-* 젬(gem)별로 각각의 초기 설정 파일은 젬과 같은 이름을 사용하여 작성한다.
-  예를 들어 CarrierWave에 대한 설정은 `carrierwave.rb`에 저장하고,
-  Active Admin에 대한 설정은 `active_admin.rb`에 저장한다.
+* 젬(gem)별로 각각의 초기 설정 파일은 젬과 같은 이름을 사용하여 작성한다. 예를 들어 CarrierWave에 대한 설정은 `carrierwave.rb`에 저장하고, Active Admin에 대한 설정은 `active_admin.rb`에 저장한다.
 
 * 개발(development), 테스트(test) 그리고 배포(production) 환경에 대한 설정들은 `config/environments/`아래에 각 환경의 이름으로 구분하여 저장한다.
 
-  * 사전 컴파일해야하는 파일은 추가적인 에셋으로 표시한다.
+* 사전 컴파일해야하는 파일은 `config/initializers/assets.rb`에 추가적인 에셋으로 표시한다.
 
-    ```Ruby
-    # config/environments/production.rb
-    # Precompile additional assets (application.js, application.css,
-    # all non-JS/CSS are already added)
-    config.assets.precompile += %w( rails_admin/rails_admin.css rails_admin/rails_admin.js )
-    ```
+  ```Ruby
+  # config/initializers/assets.rb
+  # Precompile additional assets (application.js, application.css,
+  # all non-JS/CSS are already added)
+  Rails.application.config.assets.precompile += %w( rails_admin/rails_admin.css rails_admin/rails_admin.js )
+  ```
 
-* 모든 환경에 적용되어야 하는 설정은 `config/application.rb` 파일에 둔다.
+* 모든 환경에 적용되어야 하는 설정(ex. logger 설정)은 `config/application.rb` 파일에 둔다.
 
 * 실제 배포 환경과 아주 유사한 'staging' 환경을 추가로 만든다.
 
@@ -76,8 +74,7 @@
   end
   ```
 
-* 여러 개의 'member/collection' 라우트를 정의해야 한다면
-  block 문법을 대신 사용한다.
+* 여러 개의 'member/collection' 라우트를 정의해야 한다면 block 문법을 대신 사용한다.
 
   ```Ruby
   resources :subscriptions do
@@ -112,9 +109,7 @@
   end
   ```
 
-* 1 단계 이상의 중첩 라우트가 필요할 때 `shallow: true` 옵션을 사용한다. 이는
-  사용자를 `posts/1/comments/5/versions/7/edit`같은 긴 url에서 구하고
-  `edit_post_comment_version`같은 긴 url 핼퍼를 사용하지 않아도 되게 한다.
+* 1 단계 이상의 중첩 라우트가 필요할 때 `shallow: true` 옵션을 사용한다. 이는 사용자를 `posts/1/comments/5/versions/7/edit`같은 긴 url에서 구하고 `edit_post_comment_version`같은 긴 url 핼퍼를 사용하지 않아도 되게 한다. 그러나 중첩 라우트가 3단계까지 내려가면 모델의 context boundary를 다시 생각할 필요가 있다. 3단계 이상은 모델의 상하 관계를 관리하기가 매우 어렵기 때문이다. 따라서 별도의 aggregate로 나누는 것을 고려해야 한다.
 
   ```Ruby
   resources :posts, shallow: true do
@@ -148,9 +143,9 @@
 
 * 컨트롤러는 최대한 간결하게 유지한다. 컨트롤러는 단지 뷰 레이어를 위한 데이터를 전달하는 역할을 하고 어떠한 비즈니스 로직도 포함해서는 안 된다(모든 비즈니스 로직은 마땅히 모델 안에서 구현되어야 한다).
 
-* 각 컨트롤러의 액션은 (원칙적으로는) 단 하나의 메소드만을 호출해야한다.
+* 각 컨트롤러의 액션은 (원칙적으로는) 단 하나의 모델 혹은 서비스 메소드만을 호출해야한다.([[The Problem with Rails Callback](http://samuelmullen.com/2013/05/the-problem-with-rails-callbacks/)])
 
-* 하나의 컨트롤러와 하나의 뷰 사이에서 두 개 이상의 인스턴스 변수들을 공유하지 않는다.
+* 하나의 컨트롤러와 하나의 뷰 사이에서 두 개 이상의 인스턴스 변수들을 공유하지 않는 것을 권장한다. 가급적이면 뷰에서 보여줄 모든 정보를 View Object에 담아 하나의 인스턴스 변수에 할당한다.
 
 ## Models
 
@@ -181,16 +176,6 @@
   [RailsCast on the subject](http://railscasts.com/episodes/326-activeattr).
 
 ### ActiveRecord
-
-* 데이터베이스 소유권을 가지고 있지 않은 경우와 같이 특별한 이유가 있는 게 아니라면 엑티브 레코드의 기본 설정(테이블 이름, 기본키 등)을 가능하면 변경하지 않는다.
-
-  ```Ruby
-  # 나쁜 예 - 데이터베이스 스키마 변경 권한이 있다면 이렇게 하지 말 것!
-  class Transaction < ActiveRecord::Base
-    self.table_name = 'order'
-    ...
-  end
-  ```
 
 * 매크로 성격의 메소드(`has_many`, `validates` 등)들은 클래스 상단에 모아둔다.
 
@@ -269,7 +254,7 @@
 
   # 좋은 예
   def amount
-    self[:amount] * 100
+    self.amount * 100
   end
   ```
 
@@ -283,7 +268,7 @@
 
   # 좋은 예
   def amount
-    self[:amount] = 100
+    self.amount = 100
   end
   ```
 
