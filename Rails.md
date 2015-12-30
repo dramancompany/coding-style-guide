@@ -54,9 +54,7 @@
 
 ## Routing
 
-* <a name="member-collection-routes"></a>
-  RESTful 리소스에 더 많은 액션을 추가할 필요가 있다면 (정말로 그게 다 필요한가?) `member` 와 `collection` 라우트를 사용한다.
-<sup>[[link](#member-collection-routes)]</sup>
+* RESTful 리소스에 더 많은 액션을 추가할 필요가 있다면 (정말로 그게 다 필요한가?) `member` 와 `collection` 라우트를 사용한다.
 
   ```Ruby
   # 나쁜 예
@@ -78,10 +76,8 @@
   end
   ```
 
-* <a name="many-member-collection-routes"></a>
-  여러 개의 'member/collection' 라우트를 정의해야 한다면
+* 여러 개의 'member/collection' 라우트를 정의해야 한다면
   block 문법을 대신 사용한다.
-<sup>[[link](#many-member-collection-routes)]</sup>
 
   ```Ruby
   resources :subscriptions do
@@ -99,9 +95,7 @@
   end
   ```
 
-* <a name="nested-routes"></a>
-  엑티브 레코드(ActiveRecord) 모델 간의 관계를 더 분명하게 표현하기 위해서 중첩 라우트를 사용한다.
-<sup>[[link](#nested-routes)]</sup>
+* 엑티브 레코드(ActiveRecord) 모델 간의 관계를 더 분명하게 표현하기 위해서 중첩 라우트를 사용한다.
 
   ```Ruby
   class Post < ActiveRecord::Base
@@ -118,8 +112,7 @@
   end
   ```
 
-* <a name="namespaced-routes"></a>
-  1 단계 이상의 중첩 라우트가 필요할 때 `shallow: true` 옵션을 사용한다. 이는
+* 1 단계 이상의 중첩 라우트가 필요할 때 `shallow: true` 옵션을 사용한다. 이는
   사용자를 `posts/1/comments/5/versions/7/edit`같은 긴 url에서 구하고
   `edit_post_comment_version`같은 긴 url 핼퍼를 사용하지 않아도 되게 한다.
 
@@ -131,9 +124,7 @@
   end
   ```
 
-* <a name="namespaced-routes"></a>
-  그룹과 관련된 액션에 대해서는 `namespace`를 사용해 라우트를 작성한다.
-<sup>[[link](#namespaced-routes)]</sup>
+* 그룹과 관련된 액션에 대해서는 `namespace`를 사용해 라우트를 작성한다.
 
   ```Ruby
   namespace :admin do
@@ -143,19 +134,15 @@
   end
   ```
 
-* <a name="no-wild-routes"></a>
-  오래 전 레일즈에서 사용하던 라우팅 설정(legacy wild controller route)은 절대로 사용하지 않는다.
+* 오래 전 레일즈에서 사용하던 라우팅 설정(legacy wild controller route)은 절대로 사용하지 않는다.
   이를 사용하면 GET 요청으로 모든 컨트롤러의 모든 액션(actions)에 접근할 수 있다.
-<sup>[[link](#no-wild-routes)]</sup>
 
   ```Ruby
   # 아주 나쁜 예
   match ':controller(/:action(/:id(.:format)))'
   ```
 
-* <a name="no-match-routes"></a>
-  `match` 메서드를 통한 라우트는 `[:get, :post, :patch, :put, :delete]` 중 여러 종류의 요청을 하나 이상의 액션에 맵핑할 필요가 있는 경우 ':via' 옵션과 함께 사용하고, 그 외에는 사용하지 않는다.
-<sup>[[link](#no-match-routes)]</sup>
+* `match` 메서드를 통한 라우트는 `[:get, :post, :patch, :put, :delete]` 중 여러 종류의 요청을 하나 이상의 액션에 맵핑할 필요가 있는 경우 ':via' 옵션과 함께 사용하고, 그 외에는 사용하지 않는다.
 
 ## Controllers
 
