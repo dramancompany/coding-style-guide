@@ -21,8 +21,7 @@
 * [번들러(Bundler)](#bundler)
 * [프로세스 관리(Managing processes)](#managing-processes)
 
-## 설정(Configuration)
-<a name="configuration"></a>
+## Configuration
 
 * <a name="config-initializers"></a>
   초기 설정 코드는 `config/initializers` 아래에 둔다. 이 코드들은 애플리케이션이 처음 구동될 때 실행된다.
