@@ -4,20 +4,20 @@
 
 ## 목차
 
-* [설정(configuration)](#configuration)
-* [라우팅(Routing)](#routing)
-* [컨트롤러(Controllers)](#controllers)
-* [모델(Models)](#models)
-  * [엑티브 레코드(ActiveRecord)](#activerecord)
-  * [엑티브 레코드 쿼리(ActiveRecord Queries)](#activerecord-queries)
-* [마이그레이션(Migrations)](#migrations)
-* [뷰(Views)](#views)
-* [국제화(Internationalization)](#internationalization)
-* [에셋(Assets)](#assets)
-* [메일러(Mailers)](#mailers)
-* [시간(Time)](#time)
-* [번들러(Bundler)](#bundler)
-* [프로세스 관리(Managing processes)](#managing-processes)
+* [Configuration](#configuration)
+* [Routing](#routing)
+* [Controllers](#controllers)
+* [Models](#models)
+  * [ActiveRecord](#activerecord)
+  * [ActiveRecord Queries](#activerecord-queries)
+* [Migrations](#migrations)
+* [Views](#views)
+* [Internationalization](#internationalization)
+* [Assets](#assets)
+* [Mailers](#mailers)
+* [Time](#time)
+* [Bundler](#bundler)
+* [Managing processes](#managing-processes)
 
 ## Configuration
 
