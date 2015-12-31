@@ -1,6 +1,6 @@
 # Drama & Company Rails Style Guide
 드라마앤컴퍼니에서 사용하는 Rails의 스타일 가이드입니다.
-이 스타일 가이드는 기본적으로
+이 스타일 가이드는 대부분
 [[Rails 스타일 가이드](https://github.com/pureugong/rails-style-guide/blob/master/README-koKR.md)]
 를 참조하여 만들어졌습니다.
 
@@ -109,7 +109,7 @@
   end
   ```
 
-* 1 단계 이상의 중첩 라우트가 필요할 때 `shallow: true` 옵션을 사용한다. 이는 사용자를 `posts/1/comments/5/versions/7/edit`같은 긴 url에서 구하고 `edit_post_comment_version`같은 긴 url 핼퍼를 사용하지 않아도 되게 한다. 그러나 중첩 라우트가 3단계까지 내려가면 모델의 context boundary를 다시 생각할 필요가 있다. 3단계 이상은 모델의 상하 관계를 관리하기가 매우 어렵기 때문이다. 따라서 별도의 aggregate로 나누는 것을 고려해야 한다.
+* 1 단계 이상의 중첩 라우트가 필요할 때 `shallow: true` 옵션을 사용한다. 이는 `posts/1/comments/5/versions/7/edit`같은 긴 url을 피하고 `edit_post_comment_version`같은 긴 url 핼퍼를 사용하지 않아도 되게 한다. 그러나 중첩 라우트가 3단계까지 내려가면 모델의 context boundary를 다시 생각할 필요가 있다. 3단계 이상은 모델의 상하 관계를 관리하기가 매우 어렵기 때문이다. 따라서 별도의 aggregate로 나누는 것을 고려해야 한다.
 
   ```Ruby
   resources :posts, shallow: true do
@@ -141,11 +141,15 @@
 
 ## Controllers
 
-* 컨트롤러는 최대한 간결하게 유지한다. 컨트롤러는 단지 뷰 레이어를 위한 데이터를 전달하는 역할을 하고 어떠한 비즈니스 로직도 포함해서는 안 된다(모든 비즈니스 로직은 마땅히 모델 안에서 구현되어야 한다).
+* 컨트롤러는 최대한 간결하게 유지한다. 컨트롤러는 단지 뷰 레이어를 위한 데이터를 전달하는 역할을 하고 _어떠한 비즈니스 로직도 포함해서는 안 된다_(모든 비즈니스 로직은 마땅히 모델 안에서 구현되어야 한다).
 
 * 각 컨트롤러의 액션은 (원칙적으로는) 단 하나의 모델 혹은 서비스 메소드만을 호출해야한다.([[The Problem with Rails Callback](http://samuelmullen.com/2013/05/the-problem-with-rails-callbacks/)])
 
 * 하나의 컨트롤러와 하나의 뷰 사이에서 두 개 이상의 인스턴스 변수들을 공유하지 않는 것을 권장한다. 가급적이면 뷰에서 보여줄 모든 정보를 View Object에 담아 하나의 인스턴스 변수에 할당한다.
+
+* 하나의 액션 메소드는 하나의 뷰만을 담당한다. 파라미터에 따라서 다른 응답 형식을 내보내지 않는다. 응답 형식이 다른 경우는 .{extension}을 사용하여 표현하도록 한다.
+
+* 동일한 뷰나 json 응답이 여러 곳에서 쓰인다면 helper에 기술하여 중복되는 것을 방지한다.
 
 ## Models
 
@@ -174,6 +178,52 @@
 
   더 많은 예제는 다음 링크를 참조.
   [RailsCast on the subject](http://railscasts.com/episodes/326-activeattr).
+
+* 하나의 Aggregate는 하나 이상의 모델로 구성되는데, models/{aggregate_name}와 같이 Aggregate를 위한 별도 디렉토리를 만들고 관련 모델을 넣어 패키징한다.
+
+* 모델이 가진 비즈니스 로직의 크기가 커지면, 별도의 PORO 클래스로 분할하여 Refactoring한다.
+
+  ```Ruby
+  class Room::Entity < ActiveRecord::Base
+    def notificator
+      @notificator ||= Room::Notificator.new(self)
+    end
+  end
+
+  class Room::Notificator
+    def send_closed_notification(requester = nil)
+    end
+  end
+  ```
+
+* 모델의 코드 순서는 아래와 같은 흐름으로 기술한다.
+
+  ```Ruby
+  class Room::Entity < ActiveRecord::Base
+    include ConstantPropertizable # include하는 모듈
+    
+    STATUS = {  # 상수
+      open: 'open',
+      closed: 'closed'
+    }
+    
+    self.table_name = 'rooms' # 초기화를 위한 static method 호출
+    
+    belongs_to :establisher_user, class_name: 'User' # Association 설정
+    validates :name, presence: { message: error.required(:name) }  # Validation Methods
+    
+    def default_image? # Public methods
+      image_url.blank?
+    end
+    
+    private
+    
+    def transferable_from?(admin)  # private methods
+      admin.present? && admin.active? && admin.admin?
+    end
+    
+  end
+  ```
 
 ### ActiveRecord
 
@@ -637,11 +687,7 @@
   [bootstrap](http://twitter.github.com/bootstrap/)와 같은 
   서드파티 라이브러리는 `vendor/assets`에 둔다.
 
-* 가능하다면 젬으로 만들어진 에셋을 사용한다(예를 들어,
-  [jquery-rails](https://github.com/rails/jquery-rails),
-  [jquery-ui-rails](https://github.com/joliss/jquery-ui-rails),
-  [bootstrap-sass](https://github.com/thomas-mcdonald/bootstrap-sass),
-  [zurb-foundation](https://github.com/zurb/foundation)).
+* javascript와 css는 bower로 asset 관리를 하는 것을 원칙으로 한다.
 
 ## Mailers
 
@@ -791,6 +837,8 @@
   platform = RUBY_PLATFORM.match(/(linux|darwin)/)[0].to_sym
   Bundler.require(platform)
   ```
+
+* Gemfile에 사용할 젬들의 특정 버전을 명시할 것을 권장한다.
 
 * `Gemfile.lock` 파일은 버전 관리에 포함한다.
   이 파일은 무작위로 생성된 것이 아니므로, 같은 프로젝트를 진행하는 여러 개발자들이 `bundle install` 명령으로 같은 버전의 젬을 설치할 수 있게 도와준다.
