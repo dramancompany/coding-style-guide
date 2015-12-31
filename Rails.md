@@ -202,23 +202,30 @@
   class Room::Entity < ActiveRecord::Base
     include ConstantPropertizable # include하는 모듈
     
-    STATUS = {  # 상수
+    # 상수
+    STATUS = {
       open: 'open',
       closed: 'closed'
     }
     
-    self.table_name = 'rooms' # 초기화를 위한 static method 호출
+    # 초기화를 위한 static method 호출
+    self.table_name = 'rooms'
     
-    belongs_to :establisher_user, class_name: 'User' # Association 설정
-    validates :name, presence: { message: error.required(:name) }  # Validation Methods
+    # Association 설정
+    belongs_to :establisher_user, class_name: 'User'
     
-    def default_image? # Public methods
+    # Validation methods
+    validates :name, presence: { message: error.required(:name) }
+    
+    # Public methods
+    def default_image?
       image_url.blank?
     end
     
     private
     
-    def transferable_from?(admin)  # private methods
+    # Private methods
+    def transferable_from?(admin)  
       admin.present? && admin.active? && admin.admin?
     end
     
@@ -264,8 +271,7 @@
   end
   ```
 
-* `has_and_belongs_to_many`보다 `has_many :through`를 사용한다.
-  `has_many :through` 사용하면 중간 모델(join model)에서 추가적인 속성이나 validation을 사용할 수 있다.
+* `has_and_belongs_to_many`보다 `has_many :through`를 사용한다. `has_many :through` 사용하면 중간 모델(join model)에서 추가적인 속성이나 validation을 사용할 수 있다.
 
   ```Ruby
   # 좋지 않은 예 - has_and_belongs_to_many를 사용한 예
@@ -294,7 +300,7 @@
   end
   ```
 
-* `read_attribute(:attribute)`보다 `self[:attribute]`를 사용한다.
+* `read_attribute(:attribute)`보다 `self.:attribute`를 사용한다.
 
   ```Ruby
   # 나쁜 예
@@ -308,7 +314,7 @@
   end
   ```
 
-* `write_attribute(:attribute, value)`보다 `self[:attribute] = value`를 사용한다.
+* `write_attribute(:attribute, value)`보다 `self.:attribute = value`를 사용한다.
 
   ```Ruby
   # 나쁜 예
@@ -378,10 +384,9 @@
   ```
 
 * [`update_attribute`](http://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_attribute) 메소드의 작동 방법에 대하여 이해해야한다.
-  (`update_attributes`와는 달리) 모델 validation를 실행하지 않기 때문에 모델의 상태에 오류가 발생할 수 있다.
+  (`update_attributes`와는 달리) 모델 validation를 실행하지 않기 때문에 모델의 상태에 오류가 발생할 수 있다. ([Different Ways to Set Attributes](http://www.davidverhasselt.com/set-attributes-in-activerecord/) 참조)
 
-* 사용자 친화적인 URL을 사용한다. URL에 'id'보다 모델의 특징을 잘 나타내는 속성을 사용한다.
-  이를 위한 여러가지 방법들이 있다.
+* 사용자 친화적인 URL을 사용한다. URL에 'id'보다 모델의 특징을 잘 나타내는 속성을 사용한다. 이를 위한 여러가지 방법들이 있다.
 
   * 모델의 'to_param' 메소드를 오버라이드한다. 이 메서드는 레일즈에서 대상 객체에 대한 URL을 생성하기 위해 사용된다. 기본적으로 레코드의 `id`를 String 객체로 반환한다. 이를 오버라이드해서 사람이 읽기 좋은 형식을 사용한다.
 
@@ -406,7 +411,7 @@
 
   사용법에 대한 더 많은 정보는 [문서](https://github.com/norman/friendly_id)를 참고하기 바란다.
 
-* 엑티브 레코드 객체의 컬렉션을 반복할 때는 `find_each`를 사용한다.
+* 엑티브 레코드 객체의 컬렉션을 반복할 때는 `find_each` 혹은 find_in_batch를 사용한다.
   (예를 들면 `all` 메서드를 사용해) 데이터베이스에서 가져온 레코드 컬렉션에 대해서 반복 작업을 수행하는 일은 매우 비효율적이다. 이 때는 배치 작업(batch process) 메소드를 통해 레코드들이 배치에서 처리되도록 하면 메모리 소비를 줄일 수 있다.
 
   ```Ruby
@@ -464,8 +469,7 @@
   Client.where('orders_count = ?', params[:orders])
   ```
 
-* 쿼리에 하나 이상의 플레이스홀더를 사용할 때는
-  위치로 구분되는 플레이스홀더 대신 이름을 붙여 사용한다.
+* 쿼리에 하나 이상의 플레이스홀더를 사용할 때는 위치로 구분되는 플레이스홀더 대신 이름을 붙여 사용한다.
 
   ```Ruby
   # 괜찮은 예
@@ -553,6 +557,16 @@
   SELECT\n    users.id, accounts.plan\n  FROM\n    users\n  INNER JOIN\n    acounts\n  ON\n    accounts.user_id = users.id
   ```
 
+* 쿼리 작성 시에는 항상 explain을 떠보고 최적의 index를 타도록 되어 있는지 확인한다.
+
+  ```Ruby
+  # 나쁜 예
+  Card.where(master: false)
+
+  # 좋은 예
+  Card.where.not(master: true)
+  ```
+
 ## Migrations
 
 * `schema.rb` (또는 `structure.sql`) 파일을 VCS(버전 관리 시스템)에 포함시킨다.
@@ -595,11 +609,10 @@
   ```
 
 * 마이그레이션에서 모델 클래스를 사용하지 않는다. 모델 클래스들은 계속해서 변하기 때문에, 마이그레이션에서 사용한 모델이 변화하게 되면 마이그레이션 작업이 정상적으로 수행되지 않을 수 있다.
-<sup>[[link](#no-model-class-migrations)]</sup>
 
 ## Views
 
-* 뷰에서 직접적으로 모델을 사용하지 않는다.
+* 뷰에서 직접적으로 모델을 사용하지 않는다. 컨트롤러가 모델을 기반으로 만든 뷰 오브젝트 사용을 권장한다.
 
 * 뷰에서는 절대 복잡한 포맷팅을 만들지 말고, 이러한 포맷팅은 뷰 헬퍼 메소드나 모델로 분리한다.
 
@@ -621,13 +634,9 @@
           name: 'Full name'
   ```
 
-  이 때 `User.model_name.human`은 `Member`를 반환하고
-  `User.human_attribute_name("name")`은 "Full name"을 반환한다.
-  이러한 속성들에 대한 번역은 뷰에서 레이블로 사용된다.
+  이 때 `User.model_name.human`은 `Member`를 반환하고 `User.human_attribute_name("name")`은 "Full name"을 반환한다. 이러한 속성들에 대한 번역은 뷰에서 레이블로 사용된다.
 
-* 뷰에서 사용되는 엑티브 레코드 속성들에 대한 번역은 분리한다.
-  `locales/models` 디렉터리에 모델을 위한 로케일 파일들을 저장하고,
-  뷰에서 사용하는 텍스트는 `locales/views`에 저장한다.
+* 뷰에서 사용되는 엑티브 레코드 속성들에 대한 번역은 분리한다. `locales/models` 디렉터리에 모델을 위한 로케일 파일들을 저장하고, 뷰에서 사용하는 텍스트는 `locales/views`에 저장한다.
 
   * 로케일(locale) 파일들을 적절한 위치에 저장하기 위해 디렉터리를 추가로 만들었다면, 이 파일들을 읽어들일 수 있도록 `application.rb` 파일에 설정해야 한다.
 
@@ -643,10 +652,7 @@
   `i18n.translate` => `i18n.t`
   `i18n.localize` => `i18n.l`
 
-* 뷰에서 사용되는 텍스트에 대해 게으른 참조(lazy lookup)를 사용한다.
-  게으른 참조란 번역 텍스트의 구조를 뷰 디렉터리 구조와 같게 하여,
-  뷰에서 간단히 번역 텍스트를 참조하는 방법이다.
-  예를 들어 다음과 같은 구조가 있다고 하자.
+* 뷰에서 사용되는 텍스트에 대해 게으른 참조(lazy lookup)를 사용한다. 게으른 참조란 번역 텍스트의 구조를 뷰 디렉터리 구조와 같게 하여, 뷰에서 간단히 번역 텍스트를 참조하는 방법이다. 예를 들어 다음과 같은 구조가 있다고 하자.
 
   ```
   en:
@@ -672,32 +678,27 @@
   I18n.t 'activerecord.errors.messages.record_invalid'
   ```
 
-* 레일즈 I18n과 관련된 더 자세한 정보는 [레일즈 가이드(Rails
-  Guides)](http://guides.rubyonrails.org/i18n.html)를 참고하라.
+* 레일즈 I18n과 관련된 더 자세한 정보는 [레일즈 가이드(Rails Guides)](http://guides.rubyonrails.org/i18n.html)를 참고하라.
 
 ## Assets
 
-[에셋 파이프라인](http://guides.rubyonrails.org/asset_pipeline.html)을 사용하라. 이는 애플리케이션 배포에 필요한 에셋 파일들을 조직해줄 것이다.
+[Asset Pipeline](http://guides.rubyonrails.org/asset_pipeline.html)을 사용하라. 이는 애플리케이션 배포에 필요한 Asset 파일들을 조직해줄 것이다.
 
 * 커스텀 스타일시트, 자바스크립트, 이미지는 `app/assets` 디렉터리 아래에 저장한다.
 
 * 애플리케이션에 포함되지 않는 직접 작성한 라이브러리들은 `lib/assets`에 저장한다.
 
-* [jQuery](http://jquery.com/)나
-  [bootstrap](http://twitter.github.com/bootstrap/)와 같은 
-  서드파티 라이브러리는 `vendor/assets`에 둔다.
+* [jQuery](http://jquery.com/)나 [bootstrap](http://twitter.github.com/bootstrap/)와 같은 서드파티 라이브러리는 `vendor/assets`에 둔다.
 
 * javascript와 css는 bower로 asset 관리를 하는 것을 원칙으로 한다.
 
 ## Mailers
 
-* 메일러의 이름은 'SomethingMailer' 형식을 따른다.
-  이러한 접미사가 없다면 메일러 클래스인지 바로 파악하기가 어렵고, 어떠한 뷰에 연결되어 있는지 찾아내기 어렵다.
+* 메일러의 이름은 'SomethingMailer' 형식을 따른다. 이러한 접미사가 없다면 메일러 클래스인지 바로 파악하기가 어렵고, 어떠한 뷰에 연결되어 있는지 찾아내기 어렵다.
 
 * HTML과 텍스트(plain text) 기반의 두 가지 템플릿을 각각 준비한다.
 
-* 개발 환경에서 메일 전송에 실패하면 에러가 발생하도록 설정한다.
-  기본 설정 값은 에러가 발생하지 않도록 설정되어 있다.
+* 개발 환경에서 메일 전송에 실패하면 에러가 발생하도록 설정한다. 기본 설정 값은 에러가 발생하지 않도록 설정되어 있다.
 
   ```Ruby
   # config/environments/development.rb
@@ -730,8 +731,7 @@
   default_url_options[:host] = 'your_site.com'
   ```
 
-* 이메일에 사이트의 링크를 넣고 싶다면 `_path` 대신 `_url` 메소드를 사용한다.
-  `_url` 메소드는 호스트 이름을 같이 반환하고,  `_path` 메소드는 그렇지 않다.
+* 이메일에 사이트의 링크를 넣고 싶다면 `_path` 대신 `_url` 메소드를 사용한다. `_url` 메소드는 호스트 이름을 같이 반환하고,  `_path` 메소드는 그렇지 않다.
 
   ```Ruby
   # 나쁜 예
@@ -766,15 +766,9 @@
   config.action_mailer.delivery_method = :smtp
   ```
 
-* html 형식의 이메일을 전송할 때, 일부 클라이언트에서는 외부 스타일시트를 참조할 때 문제가 발생할 수 있기 때문에 css는 모두 인라인으로 작성되어야 한다.
-  하지만 인라인 스타일을 사용하면 유지보수가 힘들고 코드 중복이 발생하게 된다.
-  스타일과 html을 자동적으로 결합해주는 아래 두 가지 젬이 존재한다.
-  [premailer-rails](https://github.com/fphilipe/premailer-rails)와
-  [roadie](https://github.com/Mange/roadie).
+* html 형식의 이메일을 전송할 때, 일부 클라이언트에서는 외부 스타일시트를 참조할 때 문제가 발생할 수 있기 때문에 css는 모두 인라인으로 작성되어야 한다. 하지만 인라인 스타일을 사용하면 유지보수가 힘들고 코드 중복이 발생하게 된다. 스타일과 html을 자동적으로 결합해주는 아래 두 가지 젬이 존재한다. [premailer-rails](https://github.com/fphilipe/premailer-rails)와 [roadie](https://github.com/Mange/roadie).
 
-* 컨트롤러에서 요청에 대한 응답을 처리하는 도중에 이메일을 보내서는 안 된다.
-  이는 페이지 로딩을 지연시키고, 여러 메일을 동시에 발송할 때 타임아웃이 될 수도 있다.
-  이메일 전송은 [sidekiq](https://github.com/mperham/sidekiq)과 같은 백그라운드 작업을 지원하는 젬을 사용해 이루어져야 한다.
+* 컨트롤러에서 요청에 대한 응답을 처리하는 도중에 이메일을 보내서는 안 된다. 이는 페이지 로딩을 지연시키고, 여러 메일을 동시에 발송할 때 타임아웃이 될 수도 있다. 이메일 전송은 [sidekiq](https://github.com/mperham/sidekiq)과 같은 백그라운드 작업을 지원하는 젬을 사용해 이루어져야 한다.
 
 ## Time
 
@@ -813,11 +807,9 @@
 
 * `Gemfile`에는 개발 또는 테스트 환경에 필요한 젬들의 목록을 그룹별로 기술한다.
 
-* 신뢰할만한 젬들만을 사용한다.
-  잘 알려지지 않은 젬을 사용하고자 한다면 우선 소스 코드와 리뷰들을 살펴보자.
+* 신뢰할만한 젬들만을 사용한다. 잘 알려지지 않은 젬을 사용하고자 한다면 우선 소스 코드와 리뷰들을 살펴보자.
 
-* 다른 OS를 사용하는 개발자들과 함께 프로젝트를 진행하게 되면 지속적으로 `Gemfile.lock`이 변경될 것이다.
-  따라서 Gemfile의 `darwin` 그룹에는 OS X 기반의 젬을 명시하고, `linux`그룹에는 리눅스 기반의 젬을 두어라.
+* 다른 OS를 사용하는 개발자들과 함께 프로젝트를 진행하게 되면 지속적으로 `Gemfile.lock`이 변경될 것이다. 따라서 Gemfile의 `darwin` 그룹에는 OS X 기반의 젬을 명시하고, `linux`그룹에는 리눅스 기반의 젬을 두어라.
 
   ```Ruby
   # Gemfile
@@ -840,8 +832,7 @@
 
 * Gemfile에 사용할 젬들의 특정 버전을 명시할 것을 권장한다.
 
-* `Gemfile.lock` 파일은 버전 관리에 포함한다.
-  이 파일은 무작위로 생성된 것이 아니므로, 같은 프로젝트를 진행하는 여러 개발자들이 `bundle install` 명령으로 같은 버전의 젬을 설치할 수 있게 도와준다.
+* `Gemfile.lock` 파일은 버전 관리에 포함한다. 이 파일은 무작위로 생성된 것이 아니므로, 같은 프로젝트를 진행하는 여러 개발자들이 `bundle install` 명령으로 같은 버전의 젬을 설치할 수 있게 도와준다.
 
 ## Managing processes
 
