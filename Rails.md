@@ -182,13 +182,13 @@
 ```
 .
 └── app
-    ├── models
-    │   ├── room
-    │   │   ├── entity.rb
-    │   │   └── member.rb
-    │   │   └── notificator.rb
-    │   └── code
-    │       └── generator.rb
+    └── models
+        └── room
+            ├── entity.rb
+            ├── member.rb
+            ├── notificator.rb
+            └── code
+                └── generator.rb
 ```
 
 * 모델이 가진 비즈니스 로직의 크기가 커지면, 별도의 PORO 클래스로 분할하여 Refactoring한다.
