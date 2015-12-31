@@ -179,17 +179,17 @@
 
 * 하나의 Aggregate는 하나 이상의 모델로 구성되는데, models/{aggregate_name}와 같이 Aggregate를 위한 별도 디렉토리를 만들고 관련 모델을 넣어 패키징한다.
 
-```
-.
-└── app
-    └── models
-        └── room
-            ├── entity.rb
-            ├── member.rb
-            ├── notificator.rb
-            └── code
-                └── generator.rb
-```
+  ```
+  .
+  └── app
+      └── models
+          └── room
+              ├── entity.rb
+              ├── member.rb
+              ├── notificator.rb
+              └── code
+                  └── generator.rb
+  ```
 
 * 모델이 가진 비즈니스 로직의 크기가 커지면, 별도의 PORO 클래스로 분할하여 Refactoring한다.
 
